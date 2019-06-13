@@ -476,8 +476,8 @@ namespace ICSharpCode.SharpZipLib.Tests.Zip
 			"7z", "7za",
 
 			// Check in default install location
-			Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe"),
-			Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "7-Zip", "7z.exe"),
+			Path.Combine(Path.Combine(Environment.GetEnvironmentVariable("ProgramW6432"), "7-Zip"), "7z.exe"),
+			Path.Combine(Path.Combine(Environment.GetEnvironmentVariable("ProgramFiles(x86)"), "7-Zip"), "7z.exe"),
 		};
 
 		public static bool TryGet7zBinPath(out string path7z)
