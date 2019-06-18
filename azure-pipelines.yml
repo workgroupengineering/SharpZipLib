@@ -1,0 +1,54 @@
+trigger:
+- feature/net35
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core 2.2 SDK'
+      inputs:
+        packageType: sdk
+        version: 2.2.x
+        #installationPath: $(Agent.ToolsDirectory)/dotnet
+    - task: DotNetCoreCLI@2
+      displayName: 'Building $(buildConfiguration)'
+      inputs:
+        command: build
+        arguments: '--configuration $(buildConfiguration)'
+    - task: VSTest@2
+      displayName: "Test on .NET Framework 3.5"
+      inputs:
+        testRunTitle: '.NET Framework 3.5'
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\*
+        searchFolder: 'test\\ICSharpCode.SharpZipLib.Tests\\bin\\$(buildConfiguration)\\net35'
+        otherConsoleOptions: /Framework:".NETFramework,Version=v3.5"
+    - task: DotNetCoreCLI@2
+      displayName: "Test on .NET Framework 4.6.1"
+      inputs:
+        command: test
+        projects: '**/*tests/*.csproj'
+        testRunTitle: '.NET Framework 4.6.1'
+        arguments: '--configuration $(buildConfiguration) --framework net461'
+    - task: DotNetCoreCLI@2
+      displayName: "Test on .NET Framework 4.7.1"
+      inputs:
+        command: test
+        projects: '**/*tests/*.csproj'
+        testRunTitle: '.NET Framework 4.7.1'
+        arguments: '--configuration $(buildConfiguration) --framework net471'
+    - task: DotNetCoreCLI@2
+      displayName: "Test on .NET Core 2.2"
+      inputs:
+        command: test
+        projects: '**/*tests/*.csproj'
+        testRunTitle: '.NET Core 2.2'
+        arguments: '--configuration $(buildConfiguration) --framework netcoreapp2.2'
