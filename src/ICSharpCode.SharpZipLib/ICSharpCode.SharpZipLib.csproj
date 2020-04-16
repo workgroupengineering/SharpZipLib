@@ -21,7 +21,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>http://icsharpcode.github.io/SharpZipLib/</PackageProjectUrl>
 		<PackageIconUrl>http://icsharpcode.github.io/SharpZipLib/assets/sharpziplib-nuget-256x256.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/icsharpcode/SharpZipLib</RepositoryUrl>
+    <RepositoryUrl Condition="'$(RepositoryUrl)'==''" >https://github.com/icsharpcode/SharpZipLib</RepositoryUrl>
     <Copyright>Copyright © 2000-2019 SharpZipLib Contributors</Copyright>
     <PackageTags>Compression Library Zip GZip BZip2 LZW Tar</PackageTags>
     <NeutralLanguage>en-US</NeutralLanguage>
